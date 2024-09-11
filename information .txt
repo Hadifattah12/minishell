@@ -1,18 +1,31 @@
 1-Create a Feature Branch to Work On: First, create a new branch for your work:
 git checkout -b (your branch name)
-2-Work on Your Branch: Make changes, add files, and commit your work as usual:
+
+2- Since you’ve already created the branch locally, push it to the remote:
+git push --set-upstream origin (your branch name)
+
+3-to ensures that your branch created you can run the command:
+git branch -r
+
+4-Work on Your Branch: Make changes, add files, and commit your work as usual:
 git add .
 git commit -m "Working on feature"
-3-Push Your Feature Branch to the Remote: If you want to push your branch 
+
+5-Push Your Feature Branch to the Remote: If you want to push your branch 
 for backup or collaboration (but not to main yet):
-git push origin my-feature-branch
-4-Finish Your Work and Merge to main: Once you are done with your work on your branch name,
+git push origin (your branch name)
+
+6-Finish Your Work and Merge to main: Once you are done with your work on your branch name,
 switch to main:
 git checkout main
-5-Pull the Latest Changes from main: Before merging, make sure
+
+7-Pull the Latest Changes from main: Before merging, make sure
 your local main is up to date with the remote:
 git pull origin main
-6-Merge Your Feature Branch into main: Merge your changes into main:
+
+8-Merge Your Feature Branch into main: Merge your changes into main:
 git merge my-feature-branch
-7-Push the Merged Changes to main: Finally, push your merged changes to the remote main branch:
+
+9-Push the Merged Changes to main: Finally, push your merged changes to the remote main branch:
 git push origin main
+
