@@ -67,7 +67,7 @@ static char	**ft_fill_array(char **aux, char const *s, char *set, int i[3])
 	return (aux);
 }
 
-char	**	ft_cmdtrim(char const *s, char *set)
+char	**ft_cmdtrim(char const *s, char *set)
 {
 	char	**aux;
 	int		nwords;

@@ -22,7 +22,6 @@ extern int g_status;
 //         printf("Command: (null)\n");
 // }
 
-
 static char **split_all(char **args, t_prompt *prompt)
 {
 	char **subsplit;

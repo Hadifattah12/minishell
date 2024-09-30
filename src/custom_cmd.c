@@ -24,7 +24,7 @@ static void	update_output(char ***matrix, int fd)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break ;
+			break;
 		temp = ft_strtrim(line, "\n");
 		free(line);
 		aux = ft_extend_matrix(aux, temp);

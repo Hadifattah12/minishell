@@ -28,4 +28,3 @@ git merge my-feature-branch
 
 9-Push the Merged Changes to main: Finally, push your merged changes to the remote main branch:
 git push origin main
-

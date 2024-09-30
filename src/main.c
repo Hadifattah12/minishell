@@ -80,7 +80,7 @@ int main(int argc, char **argv, char **envp)
 	char *str;
 	char *out;
 	t_prompt prompt;
-
+ 
 	prompt = init_prompt(argv, envp);
 	while (argv && argc)
 	{
