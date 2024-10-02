@@ -12,31 +12,48 @@
 
 #include "../inc/minishell.h"
 
-extern int	g_status;
+extern int g_status;
 
-void	child_builtin(t_prompt *prompt, t_mini *n, int l, t_list *cmd)
+void execute_env(t_prompt *prompt, t_mini *n, int l)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (!is_builtin(n) && n->full_cmd)
-		execve(n->full_path, n->full_cmd, prompt->envp);
-	else if (n->full_cmd && !ft_strncmp(*n->full_cmd, "pwd", l) \
-		&& l == 3)
-		g_status = mini_pwd();
-	else if (is_builtin(n) && n->full_cmd && \
-		!ft_strncmp(*n->full_cmd, "echo", l) && l == 4)
-		g_status = mini_echo(cmd);
-	else if (is_builtin(n) && n->full_cmd && \
-		!ft_strncmp(*n->full_cmd, "env", l) && l == 3)
+	int i;
+
+	i = 0;
+	while (n->full_cmd[i])
+	{
+		if (!ft_strncmp(n->full_cmd[i], "env", l) && l == 3)
+			i++;
+		else
+			break;
+	}
+	if (i == ft_matrixlen(n->full_cmd))
 	{
 		ft_putmatrix_fd(prompt->envp, 1, 1);
 		g_status = 0;
 	}
 }
 
-static void	*child_redir(t_list *cmd, int fd[2])
+void child_builtin(t_prompt *prompt, t_mini *n, int l, t_list *cmd)
 {
-	t_mini	*node;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (!is_builtin(n) && n->full_cmd)
+		execve(n->full_path, n->full_cmd, prompt->envp);
+	else if (n->full_cmd && !ft_strncmp(*n->full_cmd, "pwd", l) && l == 3)
+		g_status = mini_pwd();
+	else if (is_builtin(n) && n->full_cmd &&
+			 !ft_strncmp(*n->full_cmd, "echo", l) && l == 4)
+		g_status = mini_echo(cmd);
+	else if (is_builtin(n) && n->full_cmd &&
+			 !ft_strncmp(*n->full_cmd, "env", l) && l == 3)
+	{
+		execute_env(prompt, n, l);
+	}
+}
+
+static void *child_redir(t_list *cmd, int fd[2])
+{
+	t_mini *node;
 
 	node = cmd->content;
 	if (node->infile != STDIN_FILENO)
@@ -57,10 +74,10 @@ static void	*child_redir(t_list *cmd, int fd[2])
 	return ("");
 }
 
-void	*child_process(t_prompt *prompt, t_list *cmd, int fd[2])
+void *child_process(t_prompt *prompt, t_list *cmd, int fd[2])
 {
-	t_mini	*n;
-	int		l;
+	t_mini *n;
+	int l;
 
 	n = cmd->content;
 	l = 0;
@@ -73,9 +90,9 @@ void	*child_process(t_prompt *prompt, t_list *cmd, int fd[2])
 	exit(g_status);
 }
 
-void	exec_fork(t_prompt *prompt, t_list *cmd, int fd[2])
+void exec_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 {
-	pid_t	pid;
+	pid_t pid;
 
 	pid = fork();
 	if (pid < 0)
@@ -88,10 +105,10 @@ void	exec_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 		child_process(prompt, cmd, fd);
 }
 
-void	*check_to_fork(t_prompt *prompt, t_list *cmd, int fd[2])
+void *check_to_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 {
-	t_mini	*n;
-	DIR		*dir;
+	t_mini *n;
+	DIR *dir;
 
 	n = cmd->content;
 	dir = NULL;
@@ -101,8 +118,9 @@ void	*check_to_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 		return (NULL);
 	if ((n->full_path && access(n->full_path, X_OK) == 0) || is_builtin(n))
 		exec_fork(prompt, cmd, fd);
-	else if (!is_builtin(n) && ((n->full_path && \
-		!access(n->full_path, F_OK)) || dir))
+	else if (!is_builtin(n) && ((n->full_path &&
+								 !access(n->full_path, F_OK)) ||
+								dir))
 		g_status = 126;
 	else if (!is_builtin(n) && n->full_cmd)
 		g_status = 127;

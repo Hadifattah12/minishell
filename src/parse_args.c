@@ -14,13 +14,13 @@
 
 extern int g_status;
 
-// void print_command(char const *s)
-// {
-//     if (s)
-//         printf("Command: %s\n", s);
-//     else
-//         printf("Command: (null)\n");
-// }
+void print_command(char const *s)
+{
+    if (s)
+        printf("Command: %s\n", s);
+    else
+        printf("Command: (null)\n");
+}
 
 static char **split_all(char **args, t_prompt *prompt)
 {
@@ -35,6 +35,7 @@ static char **split_all(char **args, t_prompt *prompt)
 		args[i] = expand_path(args[i], -1, quotes,
 							  mini_getenv("HOME", prompt->envp, 4));
 		subsplit = ft_cmdsubsplit(args[i], "<|>");
+		// print_command(args[i]);
 		ft_matrix_replace_in(&args, subsplit, i);
 		i += ft_matrixlen(subsplit) - 1;
 		ft_free_matrix(&subsplit);

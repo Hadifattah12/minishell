@@ -116,12 +116,11 @@ int	mini_unset(t_prompt *prompt)
 	{
 		while (argv[++ij[0]])
 		{
-			if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] != '=')
-			{
-				aux = ft_strjoin(argv[ij[0]], "=");
-				free(argv[ij[0]]);
-				argv[ij[0]] = aux;
-			}
+			if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] == '=')
+				return 0;
+			aux = ft_strjoin(argv[ij[0]], "=");
+			free(argv[ij[0]]);
+			argv[ij[0]] = aux;
 			if (var_in_envp(argv[ij[0]], prompt->envp, ij))
 				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
 		}

@@ -39,6 +39,8 @@ void	*mini_perror(int err_type, char *param, int err)
 		ft_putstr_fd("minishell: Is a directory: ", 2);
 	else if (err_type == NOT_DIR)
 		ft_putstr_fd("minishell: Not a directory: ", 2);
+	else if (err_type == 15)
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 	ft_putendl_fd(param, 2);
 	return (NULL);
 }
@@ -106,6 +108,7 @@ void	cd_error(char **str[2])
 	{
 		g_status = 1;
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return ;
 	}
 	if (str[0][1])
 		dir = opendir(str[0][1]);
