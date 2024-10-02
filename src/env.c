@@ -12,6 +12,8 @@
 
 #include "../inc/minishell.h"
 
+extern int g_status;
+
 char	*mini_getenv(char *var, char **envp, int n)
 {
 	int	i;
@@ -95,6 +97,11 @@ int	mini_export(t_prompt *prompt)
 			{
 				free(prompt->envp[ij[1]]);
 				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
+			}
+			else if(ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0)
+			{
+				printf("minishell: '%s'not a valid identifier\n",argv[ij[0]]);
+				return 1;
 			}
 			else if (!pos)
 				prompt->envp = ft_extend_matrix(prompt->envp, argv[ij[0]]);
