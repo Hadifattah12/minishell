@@ -34,28 +34,47 @@ void	*mini_perror(int err_type, char *param, int err)
 	return (NULL);
 }
 
+int	check_overflow(long *nbr, int sign, char digit)
+{
+	int limit_digit;
+
+	if (sign == 1)
+		limit_digit = LONG_MAX % 10;
+	else
+		limit_digit = LONG_MAX % 10 + 1;
+
+	if (*nbr > LONG_MAX / 10 || (*nbr == LONG_MAX / 10 && (digit - '0') > limit_digit))
+	{
+		if (sign == 1)
+			*nbr = LONG_MAX;
+		else
+			*nbr = LONG_MIN;
+		return (-1);
+	}
+	return (0);
+}
+
+
 int	ft_atoi2(const char *nptr, long *nbr)
 {
-	int	sign = 1;
+	int	sign;
 
 	*nbr = 0;
 	while (ft_isspace(*nptr))
 		nptr++;
+	sign = 1;
 	if (*nptr == '-' || *nptr == '+')
-		sign = (*nptr++ == '-') ? -1 : 1;
+	{
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
+	}
 	if (!ft_isdigit(*nptr))
 		return (-1);
 	while (ft_isdigit(*nptr))
 	{
-		if (*nbr > LONG_MAX / 10 || (*nbr == LONG_MAX / 10 && (*nptr - '0') \
-		> (sign == 1 ? LONG_MAX % 10 : LONG_MAX % 10 + 1)))
-		{
-			if (sign == 1)
-        		*nbr = LONG_MAX;
-    		else
-        		*nbr = LONG_MIN;
-   			 return (-1);
-		}
+		if (check_overflow(nbr, sign, *nptr) == -1)
+			return (-1);
 		*nbr = 10 * *nbr + (*nptr++ - '0');
 	}
 	if (*nptr && !ft_isspace(*nptr))
