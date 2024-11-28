@@ -1,4 +1,3 @@
-
 #include "../inc/minishell.h"
 
 extern int	g_status;

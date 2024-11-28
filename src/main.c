@@ -41,7 +41,7 @@ static t_prompt init_vars(t_prompt prompt, char *str, char **argv)
 	str = mini_getenv("PATH", prompt.envp, 4);
 	if (!str)
 		prompt.envp = mini_setenv("PATH",
-								  "/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", prompt.envp, 4);
+		"/usr/local/sbin:/usr/local/bin:/usr/bin:/bin", prompt.envp, 4);
 	free(str);
 	str = mini_getenv("_", prompt.envp, 1);
 	if (!str)

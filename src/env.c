@@ -44,6 +44,7 @@ char	**mini_setenv(char *var, char *value, char **envp, int n)
 			aux[0] = envp[i[0]];
 			envp[i[0]] = aux[1];
 			free(aux[0]);
+			// free(aux[1]);
 			return (envp);
 		}
 	}

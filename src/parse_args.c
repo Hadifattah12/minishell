@@ -80,7 +80,7 @@ void *check_args(char *out, t_prompt *p)
 		n = p->cmds->content;
 	if (p && p->cmds && n && n->full_cmd && ft_lstsize(p->cmds) == 1)
 		p->envp = mini_setenv("_", n->full_cmd[ft_matrixlen(n->full_cmd) - 1],
-							  p->envp, 1);
+				p->envp, 1);
 	if (p && p->cmds)
 		ft_lstclear(&p->cmds, free_content);
 	return (p);
