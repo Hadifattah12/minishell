@@ -50,3 +50,4 @@ int	get_here_doc(char *str[2], char *aux[2])
 	}
 	return (fd[READ_END]);
 }
+

@@ -2,36 +2,37 @@
 
 extern int	g_status;
 
+void handle_signal_execute(t_prompt *prompt,t_list *cmd)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	exec_cmd(prompt, cmd);
+}
+
 int	builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 {
-	char	**a;
+	char		**a;
+	int			i;
 
+	i = 0;
 	while (cmd)
 	{
 		a = ((t_mini *)cmd->content)->full_cmd;
 		n = 0;
 		if (a)
 			n = ft_strlen(*a);
-// 		if (a) {
-//     for (int i = 0; a[i]; i++) {
-//         printf("%s ", a[i]); 
-//     }
-//     printf("\n");
-// }
-		if (a && !ft_strncmp(*a, "exit", n) && n == 4)
+		if((i == 0) && (a && !ft_strncmp(*a, "exit", n) && n == 4)){
 			g_status = mini_exit(cmd, is_exit);
-		else if (!cmd->next && a && !ft_strncmp(*a, "cd", n) && n == 2)
+			i++;
+		}
+		if (!cmd->next && a && !ft_strncmp(*a, "cd", n) && n == 2)
 			g_status = mini_cd(prompt);
 		else if (!cmd->next && a && !ft_strncmp(*a, "export", n) && n == 6)
 			g_status = mini_export(prompt);
 		else if (!cmd->next && a && !ft_strncmp(*a, "unset", n) && n == 5)
 			g_status = mini_unset(prompt);
 		else
-		{
-			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_IGN);
-			exec_cmd(prompt, cmd);
-		}
+			handle_signal_execute(prompt,cmd);
 		cmd = cmd->next;
 	}
 	return (g_status);
@@ -92,16 +93,6 @@ int	mini_cd(t_prompt *p)
 	return (g_status);
 }
 
-int	mini_pwd(void)
-{
-	char	*buf;
-
-	buf = getcwd(NULL, 0);
-	ft_putendl_fd(buf, 1);
-	free(buf);
-	return (0);
-}
-
 int	mini_echo(t_list *cmd)
 {
 	int		newline;
@@ -129,4 +120,4 @@ int	mini_echo(t_list *cmd)
 		}
 	}
 	return (write(1, "\n", newline) == 2);
-}
+} 

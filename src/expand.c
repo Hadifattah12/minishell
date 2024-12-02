@@ -3,6 +3,14 @@
 
 extern int g_status;
 
+static int validate_rules(char *str,int i,int quotes[2]){
+	if((!quotes[0] && !quotes[1] && str[i] == '~') && 
+	(i == 0 || (str[i - 1]== ' '))&& 
+	(str[i + 1] == '\0' || str[i + 1] == ' ' || str[i + 1] == '/'))
+	 		return (1);
+	return (0);
+}
+
 char *expand_path(char *str, int i, int quotes[2], char *var)
 {
 	char *path;
@@ -14,23 +22,17 @@ char *expand_path(char *str, int i, int quotes[2], char *var)
 	{
 		quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
 		quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-		if (!quotes[0] && !quotes[1] && str[i] == '~')
+		if (validate_rules(str,i,quotes))
 		{
-			if (i == 0 || (str[i - 1] == ' '))
-			{
-				if (str[i + 1] == '\0' || str[i + 1] == ' ')
-				{
-					aux = ft_substr(str, 0, i);
-					path = ft_strjoin(aux, var);
-					free(aux);
-					aux = ft_substr(str, i + 1, ft_strlen(str));
-					free(str);
-					str = ft_strjoin(path, aux);
-					free(aux);
-					free(path);
-					return (expand_path(str, i + ft_strlen(var) - 1, quotes, var));
-				}
-			}
+			aux = ft_substr(str, 0, i);
+			path = ft_strjoin(aux, var);
+			free(aux);
+			aux = ft_substr(str, i + 1, ft_strlen(str));
+			free(str);
+			str = ft_strjoin(path, aux);
+			free(aux);
+			free(path);
+			return (expand_path(str, i + ft_strlen(var) - 1, quotes, var));
 		}
 	}
 	free(var);
@@ -78,4 +80,14 @@ char *expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
 								quotes, prompt));
 	}
 	return (str);
+}
+
+int	mini_pwd(void)
+{
+	char	*buf;
+
+	buf = getcwd(NULL, 0);
+	ft_putendl_fd(buf, 1);
+	free(buf);
+	return (0);
 }

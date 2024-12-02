@@ -108,8 +108,7 @@ void *check_to_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 	if ((n->full_path && access(n->full_path, X_OK) == 0) || is_builtin(n))
 		exec_fork(prompt, cmd, fd);
 	else if (!is_builtin(n) && ((n->full_path &&
-								 !access(n->full_path, F_OK)) ||
-								dir))
+				!access(n->full_path, F_OK)) || dir))
 		g_status = 126;
 	else if (!is_builtin(n) && n->full_cmd)
 		g_status = 127;

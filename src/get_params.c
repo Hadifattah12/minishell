@@ -55,12 +55,12 @@ t_mini	*get_outfile1(t_mini *node, char **args, int *i)
 
 t_mini	*get_outfile2(t_mini *node, char **args, int *i)
 {
-	char	*nl;
+	char	*error;
 	int		flags[2];
 
 	flags[0] = 1;
 	flags[1] = 1;
-	nl = "minishell: syntax error near unexpected token `newline'";
+	error = "minishell: syntax error near unexpected token `newline'";
 	(*i)++;
 	if (args[++(*i)])
 		node->outfile = get_fd(node->outfile, args[*i], flags);
@@ -69,7 +69,7 @@ t_mini	*get_outfile2(t_mini *node, char **args, int *i)
 		*i = -1;
 		if (node->outfile != -1)
 		{
-			ft_putendl_fd(nl, 2);
+			ft_putendl_fd(error, 2);
 			g_status = 2;
 		}
 		else

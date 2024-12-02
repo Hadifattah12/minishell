@@ -50,6 +50,7 @@ enum	e_mini_error
 // char	*mini_readline(t_prompt *prompt, char *str);
 
 // void	*mini_here_fd(int fd[2]);
+void 	handle_signal_execute(t_prompt *prompt,t_list *cmd);
 
 int		builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 
@@ -97,7 +98,7 @@ void	child_builtin(t_prompt *prompt, t_mini *n, int l, t_list *cmd);
 
 void	exec_custom(char ***out, char *full, char *args, char **envp);
 
-int		exec_builtin(t_prompt *prompt, int (*func)(t_prompt *));
+// int		exec_builtin(t_prompt *prompt, int (*func)(t_prompt *));
 
 void	get_cmd(t_prompt *prompt, t_list *start, char **split_path, char *path);
 
