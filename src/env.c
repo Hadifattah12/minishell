@@ -64,7 +64,10 @@ static int	var_in_envp(char *argv, char **envp, int ij[2])
 	while (envp[ij[1]])
 	{
 		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
+		{
+			free(envp[ij[1]]);
 			return (1);
+		}
 		ij[1]++;
 	}
 	return (0);
@@ -84,10 +87,7 @@ int	mini_export(t_prompt *prompt)
 		{
 			pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
 			if (pos == 1)
-			{
-				free(prompt->envp[ij[1]]);
 				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
-			}
 			else if(ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0)
 			{
 				printf("minishell: '%s'not a valid identifier\n",argv[ij[0]]);
