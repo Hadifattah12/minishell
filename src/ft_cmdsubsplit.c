@@ -75,3 +75,17 @@ char	**ft_cmdsubsplit(char const *s, char *set)
 	aux[nwords] = NULL;
 	return (aux);
 }
+
+void	free_content(void *content)
+{
+	t_mini	*node;
+
+	node = content;
+	ft_free_matrix(&node->full_cmd);
+	free(node->full_path);
+	if (node->infile != STDIN_FILENO)
+		close(node->infile);
+	if (node->outfile != STDOUT_FILENO)
+		close(node->outfile);
+	free(node);
+}

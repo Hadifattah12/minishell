@@ -11,21 +11,20 @@ void handle_signal_execute(t_prompt *prompt,t_list *cmd)
 
 int	builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n)
 {
-	char		**a;
-	int			i;
+	char	**a;
+	int		i;
 
-	i = 0;
+	i = -1;
 	while (cmd)
 	{
 		a = ((t_mini *)cmd->content)->full_cmd;
 		n = 0;
 		if (a)
 			n = ft_strlen(*a);
-		if((i == 0) && (a && !ft_strncmp(*a, "exit", n) && n == 4)){
-			g_status = mini_exit(cmd, is_exit);
-			i++;
-		}
-		if (!cmd->next && a && !ft_strncmp(*a, "cd", n) && n == 2)
+		if(++i == 0)
+			if(a && !ft_strncmp(*a, "exit", n) && n == 4)
+				g_status = mini_exit(cmd, is_exit);
+		if(!cmd->next && a && !ft_strncmp(*a, "cd", n) && n == 2)
 			g_status = mini_cd(prompt);
 		else if (!cmd->next && a && !ft_strncmp(*a, "export", n) && n == 6)
 			g_status = mini_export(prompt);
