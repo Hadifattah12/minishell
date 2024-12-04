@@ -19,10 +19,14 @@ void	execute_env(t_prompt *prompt, t_mini *n, int l)
 	i = 0;
 	while (n->full_cmd[i])
 	{
-		if (!ft_strncmp(n->full_cmd[i], "env", l) && l == 3)
+		if (!ft_strncmp(n->full_cmd[i], "env", ft_strlen(n->full_cmd[i])) && l == 3)
 			i++;
 		else
+		{
+			g_status = 127;
+			printf("env: '%s': no such file or directory\n",n->full_cmd[i]);
 			break ;
+		}
 	}
 	if (i == ft_matrixlen(n->full_cmd))
 	{

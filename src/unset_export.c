@@ -77,7 +77,7 @@ int mini_export(t_prompt *prompt)
     char **argv;
 
     argv = ((t_mini *)prompt->cmds->content)->full_cmd;
-    if (ft_matrixlen(argv) == 1 && !argv[1])
+    if (!argv[1] && (ft_matrixlen(argv) == 1))
         sort_env(prompt->export);
     if (ft_matrixlen(argv) >= 2)
     {
