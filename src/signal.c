@@ -17,22 +17,11 @@ void	handle_sigint(int sig)
 	if (sig == SIGINT)
 	{
 		g_status = 130;
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
 }
-
-// void	handle_sigint(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		g_status = 130;
-// 		write(STDOUT_FILENO, "\n", 1);
-		// rl_replace_line("", 0);
-		// rl_on_new_line();
-// 	}
-// }
 
 void	*check_to_fork(t_prompt *prompt, t_list *cmd, int fd[2])
 {
@@ -93,6 +82,7 @@ void	*mini_perror(int err_type, char *param, int err)
 	mini_perror_helper(err_type, param);
 	return (NULL);
 }
+
 
 int	var_in_envp_unset(char *argv, char **envp, int ij[2])
 {

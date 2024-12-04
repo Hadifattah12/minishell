@@ -98,6 +98,23 @@ int mini_export(t_prompt *prompt)
     return (0);
 }
 
+void handle_unset(char *argv,t_prompt *prompt)
+{
+    int     i;
+    char    **argument;
+
+    i = -1;
+    argument = prompt->export;
+    while(argument[++i])
+    {
+        if(!ft_strncmp(argv,argument[i],ft_strlen(argv)))
+        {
+            ft_matrix_replace_in(&prompt->export, NULL, i);
+            return ;
+        }
+    }
+}
+
 int mini_unset(t_prompt *prompt)
 {
     char **argv;
@@ -106,17 +123,23 @@ int mini_unset(t_prompt *prompt)
 
     ij[0] = 0;
     argv = ((t_mini *)prompt->cmds->content)->full_cmd;
+
     if (ft_matrixlen(argv) >= 2)
     {
         while (argv[++ij[0]])
         {
+            if(ft_strchars_i(argv[ij[0]],"=") == -1)
+                handle_unset(argv[ij[0]],prompt);
             if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] == '=')
                 return (0);
             aux = ft_strjoin(argv[ij[0]], "=");
             free(argv[ij[0]]);
             argv[ij[0]] = aux;
             if (var_in_envp_unset(argv[ij[0]], prompt->envp, ij))
+            {
                 ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
+                ft_matrix_replace_in(&prompt->export, NULL, ij[1]);
+            }
         }
     }
     return (0);
