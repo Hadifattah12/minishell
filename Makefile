@@ -25,7 +25,7 @@ GREEN = \033[0;92m
 RESET = \033[0m
 
 SRC = main.c builtins.c ft_strtrim_all.c exec.c         \
-      fill_node.c get_params.c ft_cmdtrim.c             \
+      fill_node.c get_params.c ft_cmdtrim.c unset_export.c \
       expand.c heredoc.c error.c env.c get_user.c       \
       get_next_line.c get_next_line_utils.c get_user_home.c    \
       ft_cmdsubsplit.c signal.c parse_args.c get_cmd.c

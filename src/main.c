@@ -69,6 +69,7 @@ static t_prompt	init_prompt(char **argv, char **envp)
 	str = NULL;
 	prompt.cmds = NULL;
 	prompt.envp = ft_dup_matrix(envp);
+	prompt.export = ft_dup_matrix(envp);
 	g_status = 0;
 	mini_getpid(&prompt);
 	prompt = init_vars(prompt, str, argv);

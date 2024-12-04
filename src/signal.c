@@ -93,3 +93,20 @@ void	*mini_perror(int err_type, char *param, int err)
 	mini_perror_helper(err_type, param);
 	return (NULL);
 }
+
+int	var_in_envp_unset(char *argv, char **envp, int ij[2])
+{
+	int	pos;
+
+	ij[1] = 0;
+	pos = ft_strchr_i(argv, '=');
+	if (pos == -1)
+		return (-1);
+	while (envp[ij[1]])
+	{
+		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
+			return (1);
+		ij[1]++;
+	}
+	return (0);
+}

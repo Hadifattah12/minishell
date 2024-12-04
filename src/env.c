@@ -61,7 +61,7 @@ char	**mini_setenv(char *var, char *value, char **envp, int n)
 	return (envp);
 }
 
-static int	var_in_envp(char *argv, char **envp, int ij[2])
+int	var_in_envp(char *argv, char **envp, int ij[2])
 {
 	int	pos;
 
@@ -69,6 +69,8 @@ static int	var_in_envp(char *argv, char **envp, int ij[2])
 	pos = ft_strchr_i(argv, '=');
 	if (pos == -1)
 		return (-1);
+	else if(pos == 0)
+		return -2;
 	while (envp[ij[1]])
 	{
 		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
@@ -80,99 +82,16 @@ static int	var_in_envp(char *argv, char **envp, int ij[2])
 	}
 	return (0);
 }
-int env_cmp(const void *a, const void *b) {
-    const char *env_a = *(const char **)a;
-    const char *env_b = *(const char **)b;
 
-    // Compare the environment variable names (before the '=' character)
-    while (*env_a && *env_b && *env_a == *env_b) {
-        env_a++;
-        env_b++;
-    }
-
-    // Custom sorting: Uppercase letters come before lowercase
-    if (toupper((unsigned char)*env_a) == toupper((unsigned char)*env_b)) {
-        return *env_a - *env_b;  // If characters are same, compare their ASCII value
-    }
-    return toupper((unsigned char)*env_a) - toupper((unsigned char)*env_b);  // Case-insensitive comparison
-}
-
-// Function to sort and export environment variables
-void sort_env(char **env) {
-    int i = 0;
-
-    // Count the number of environment variables
-    while (env[i] != NULL) {
-        i++;
-    }
-
-    // Sort the environment variables using qsort
-    qsort(env, i, sizeof(char *), env_cmp);
-
-    // Print the sorted environment variables and simulate export
-    for (int j = 0; j < i; j++) {
-        write(1, "declare -x ", 11);           // Simulate export command
-        write(1, env[j], strlen(env[j]));  // Print the environment variable
-        write(1, "\n", 1);              // Newline after each export
-    }
-}
-
-// Handle export command
-void handle_export(t_prompt *prompt) {
-    // Sort the environment variables passed through prompt->envp
-    sort_env(prompt->envp);
-}
-
-int	mini_export(t_prompt *prompt)
+int print_error_export(t_prompt *prompt,char *argv)
 {
-	int		ij[2];
-	int		pos;
-	char	**argv;
-
-	argv = ((t_mini *)prompt->cmds->content)->full_cmd;
-	if (ft_matrixlen(argv) == 1)
-		handle_export(prompt);
-	if (ft_matrixlen(argv) >= 2)
-	{
-		ij[0] = 1;
-		while (argv[ij[0]])
-		{
-			pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
-			if (pos == 1)
-				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
-			else if (ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0)
-			{
-				printf("minishell: '%s'not a valid identifier\n", argv[ij[0]]);
-				return (1);
-			}
-			else if (!pos)
-				prompt->envp = ft_extend_matrix(prompt->envp, argv[ij[0]]);
-			ij[0]++;
-		}
-	}
-	return (0);
+    prompt->export = ft_extend_matrix(prompt->export,argv);
+	printf("minishell: '%s' not a valid identifier\n", argv);
+	return (1);
 }
 
-int	mini_unset(t_prompt *prompt)
+void extend_export(t_prompt *prompt,char *argv)
 {
-	char	**argv;
-	char	*aux;
-	int		ij[2];
-
-	ij[0] = 0;
-	argv = ((t_mini *)prompt->cmds->content)->full_cmd;
-	if (ft_matrixlen(argv) >= 2)
-	{
-		while (argv[++ij[0]])
-		{
-			if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] == '=')
-				return (0);
-			aux = ft_strjoin(argv[ij[0]], "=");
-			free(argv[ij[0]]);
-			argv[ij[0]] = aux;
-			if (var_in_envp(argv[ij[0]], prompt->envp, ij))
-				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
-		}
-	}
-	return (0);
+    prompt->envp = ft_extend_matrix(prompt->envp, argv);
+    prompt->export = ft_extend_matrix(prompt->export, argv);
 }

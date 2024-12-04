@@ -33,6 +33,7 @@ typedef struct s_prompt
 	t_list	*cmds;
 	char	**envp;
 	pid_t	pid;
+	char	**export;
 }			t_prompt;
 
 typedef struct s_mini
@@ -62,11 +63,19 @@ extern int	g_status;
 
 void	handle_signal_execute(t_prompt *prompt, t_list *cmd);
 
+int		var_in_envp(char *argv, char **envp, int ij[2]);
+
 void	exec_fork(t_prompt *prompt, t_list *cmd, int fd[2]);
 
 int		builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 
 int		is_builtin(t_mini *n);
+
+int 	print_error_export(t_prompt *prompt,char *argv);
+
+void 	extend_export(t_prompt *prompt,char *argv);
+
+int		var_in_envp_unset(char *argv, char **envp, int ij[2]);
 
 int		mini_cd(t_prompt *prompt);
 
