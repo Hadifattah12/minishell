@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:18:54 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 14:56:33 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:07:15 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	*mini_perror(int err_type, char *param, int err)
 	mini_perror_helper(err_type, param);
 	return (NULL);
 }
-
 
 int	var_in_envp_unset(char *argv, char **envp, int ij[2])
 {

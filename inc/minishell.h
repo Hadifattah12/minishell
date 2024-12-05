@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:34:47 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 16:04:35 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:18:57 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int		builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 
 int		is_builtin(t_mini *n);
 
-int 	print_error_export(t_prompt *prompt,char *argv);
+int		print_error_export(t_prompt *prompt, char *argv);
 
-void 	extend_export(t_prompt *prompt,char *argv);
+void	extend_export(t_prompt *prompt, char *argv);
 
 int		var_in_envp_unset(char *argv, char **envp, int ij[2]);
 

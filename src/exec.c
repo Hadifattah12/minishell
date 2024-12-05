@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:45:29 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 14:47:11 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:06:30 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	execute_env(t_prompt *prompt, t_mini *n, int l)
 	i = 0;
 	while (n->full_cmd[i])
 	{
-		if (!ft_strncmp(n->full_cmd[i], "env", ft_strlen(n->full_cmd[i])) && l == 3)
+		if (!ft_strncmp(n->full_cmd[i], "env",
+				ft_strlen(n->full_cmd[i])) && l == 3)
 			i++;
 		else
 		{
 			g_status = 127;
-			printf("env: '%s': no such file or directory\n",n->full_cmd[i]);
+			printf("env: '%s': no such file or directory\n", n->full_cmd[i]);
 			break ;
 		}
 	}

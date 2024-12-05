@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:54:00 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 16:44:52 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 10:05:36 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 	pos = ft_strchr_i(argv, '=');
 	if (pos == -1)
 		return (-1);
-	else if(pos == 0)
-		return -2;
+	else if (pos == 0)
+		return (-2);
 	while (envp[ij[1]])
 	{
 		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
@@ -83,15 +83,15 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 	return (0);
 }
 
-int print_error_export(t_prompt *prompt,char *argv)
+int	print_error_export(t_prompt *prompt, char *argv)
 {
-    prompt->export = ft_extend_matrix(prompt->export,argv);
+	prompt->export = ft_extend_matrix(prompt->export, argv);
 	printf("minishell: '%s' not a valid identifier\n", argv);
 	return (1);
 }
 
-void extend_export(t_prompt *prompt,char *argv)
+void	extend_export(t_prompt *prompt, char *argv)
 {
-    prompt->envp = ft_extend_matrix(prompt->envp, argv);
-    prompt->export = ft_extend_matrix(prompt->export, argv);
+	prompt->envp = ft_extend_matrix(prompt->envp, argv);
+	prompt->export = ft_extend_matrix(prompt->export, argv);
 }
