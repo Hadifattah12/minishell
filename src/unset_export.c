@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:07:36 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 10:19:51 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:01:41 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	mini_export(t_prompt *prompt)
 			if (pos == 1)
 				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
 			else if (pos == -1)
-				prompt->export = ft_extend_matrix(prompt->export, argv[ij[0]]);
+				handle_export(argv[ij[0]], prompt);
 			else if (ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0 || pos == -2)
 				return (print_error_export(prompt, argv[ij[0]]));
 			else if (!pos)

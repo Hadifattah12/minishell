@@ -6,7 +6,7 @@
 #    By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 10:15:55 by hfattah           #+#    #+#              #
-#    Updated: 2024/12/03 12:34:15 by hfattah          ###   ########.fr        #
+#    Updated: 2024/12/05 14:47:14 by hfattah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBFT_OBJ_DIR = libft/obj
 GREEN = \033[0;92m
 RESET = \033[0m
 
-SRC = main.c builtins.c ft_strtrim_all.c exec.c         \
+SRC = main.c builtins.c ft_strtrim_all.c exec.c helper.c         \
       fill_node.c get_params.c ft_cmdtrim.c unset_export.c \
       expand.c heredoc.c error.c env.c get_user.c       \
       get_next_line.c get_next_line_utils.c get_user_home.c    \

@@ -6,11 +6,40 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:19:21 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 10:19:58 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 13:18:55 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	mini_unset(t_prompt *prompt)
+{
+	char	**argv;
+	char	*aux;
+	int		ij[2];
+
+	ij[0] = 0;
+	argv = ((t_mini *)prompt->cmds->content)->full_cmd;
+	if (ft_matrixlen(argv) >= 2)
+	{
+		while (argv[++ij[0]])
+		{
+			if (ft_strchars_i(argv[ij[0]], "=") == -1)
+				handle_unset(argv[ij[0]], prompt);
+			if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] == '=')
+				return (0);
+			aux = ft_strjoin(argv[ij[0]], "=");
+			free(argv[ij[0]]);
+			argv[ij[0]] = aux;
+			if (var_in_envp_unset(argv[ij[0]], prompt->envp, ij))
+			{
+				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
+				ft_matrix_replace_in(&prompt->export, NULL, ij[1]);
+			}
+		}
+	}
+	return (0);
+}
 
 static char	**split_all(char **args, t_prompt *prompt)
 {
@@ -84,33 +113,4 @@ void	*check_args(char *out, t_prompt *p)
 	if (p && p->cmds)
 		ft_lstclear(&p->cmds, free_content);
 	return (p);
-}
-
-int	mini_unset(t_prompt *prompt)
-{
-	char	**argv;
-	char	*aux;
-	int		ij[2];
-
-	ij[0] = 0;
-	argv = ((t_mini *)prompt->cmds->content)->full_cmd;
-	if (ft_matrixlen(argv) >= 2)
-	{
-		while (argv[++ij[0]])
-		{
-			if (ft_strchars_i(argv[ij[0]], "=") == -1)
-				handle_unset(argv[ij[0]], prompt);
-			if (argv[ij[0]][ft_strlen(argv[ij[0]]) - 1] == '=')
-				return (0);
-			aux = ft_strjoin(argv[ij[0]], "=");
-			free(argv[ij[0]]);
-			argv[ij[0]] = aux;
-			if (var_in_envp_unset(argv[ij[0]], prompt->envp, ij))
-			{
-				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
-				ft_matrix_replace_in(&prompt->export, NULL, ij[1]);
-			}
-		}
-	}
-	return (0);
 }

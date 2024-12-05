@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:34:47 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 10:18:57 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:00:03 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ enum	e_mini_error
 };
 
 extern int	g_status;
+
+void	handle_unset(char *argv, t_prompt *prompt);
 
 void	handle_signal_execute(t_prompt *prompt, t_list *cmd);
 
@@ -138,5 +140,7 @@ char	*mini_getprompt(t_prompt prompt);
 void	free_content(void *content);
 
 void	handle_sigint(int sig);
+
+void	handle_export(char *argv, t_prompt *prompt);
 
 #endif
