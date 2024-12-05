@@ -83,11 +83,10 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 	return (0);
 }
 
-int	print_error_export(t_prompt *prompt, char *argv)
+void	print_error_export(t_prompt *prompt, char *argv)
 {
 	prompt->export = ft_extend_matrix(prompt->export, argv);
 	printf("minishell: '%s' not a valid identifier\n", argv);
-	return (1);
 }
 
 void	extend_export(t_prompt *prompt, char *argv)

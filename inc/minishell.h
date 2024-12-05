@@ -73,7 +73,7 @@ int		builtin(t_prompt *prompt, t_list *cmd, int *is_exit, int n);
 
 int		is_builtin(t_mini *n);
 
-int		print_error_export(t_prompt *prompt, char *argv);
+void		print_error_export(t_prompt *prompt, char *argv);
 
 void	extend_export(t_prompt *prompt, char *argv);
 

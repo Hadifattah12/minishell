@@ -97,10 +97,11 @@ int	mini_export(t_prompt *prompt)
 			pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
 			if (pos == 1)
 				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
-			else if (pos == -1)
+			else if (pos == -1){
 				handle_export(argv[ij[0]], prompt);
+			}
 			else if (ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0 || pos == -2)
-				return (print_error_export(prompt, argv[ij[0]]));
+				print_error_export(prompt, argv[ij[0]]);
 			else if (!pos)
 				extend_export(prompt, argv[ij[0]]);
 		}
