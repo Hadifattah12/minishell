@@ -112,7 +112,7 @@ t_mini	*get_infile1(t_mini *node, char **args, int *i)
 	return (node);
 }
 
-t_mini	*get_infile2(t_mini *node, char **args, int *i)
+t_mini	*get_infile2(t_mini *node, char **args, int *i,t_prompt *prompt)
 {
 	char	*aux[2];
 	char	*nl;
@@ -127,7 +127,7 @@ t_mini	*get_infile2(t_mini *node, char **args, int *i)
 	if (args[++(*i)])
 	{
 		aux[0] = args[*i];
-		node->infile = get_here_doc(str, aux);
+		node->infile = get_here_doc(str, aux,prompt);
 	}
 	if (!args[*i] || node->infile == -1)
 	{

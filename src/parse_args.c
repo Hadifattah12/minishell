@@ -67,7 +67,7 @@ static void	*parse_args(char **args, t_prompt *p)
 	int	i;
 
 	is_exit = 0;
-	p->cmds = fill_nodes(split_all(args, p), -1);
+	p->cmds = fill_nodes(split_all(args, p), -1,p);
 	if (!p->cmds)
 		return (p);
 	i = ft_lstsize(p->cmds);

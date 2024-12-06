@@ -49,7 +49,7 @@ char	*expand_path(char *str, int i, int quotes[2], char *var)
 	return (str);
 }
 
-static char	*get_substr_var(char *str, int i, t_prompt *prompt)
+char	*get_substr_var(char *str, int i, t_prompt *prompt)
 {
 	char	*aux;
 	int		pos;
