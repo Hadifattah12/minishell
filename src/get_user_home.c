@@ -53,14 +53,6 @@ static char	*get_user(t_prompt prompt)
 		user = ft_extend_matrix(user, "guest");
 	if (!ft_strncmp(user[0], "root", 4))
 		temp2 = ft_strjoin(NULL, RED);
-	else if ((int)(user[0][0]) % 5 == 0)
-		temp2 = ft_strjoin(NULL, YELLOW);
-	else if ((int)(user[0][0]) % 5 == 1)
-		temp2 = ft_strjoin(NULL, GRAY);
-	else if ((int)(user[0][0]) % 5 == 2)
-		temp2 = ft_strjoin(NULL, GREEN);
-	else if ((int)(user[0][0]) % 5 == 3)
-		temp2 = ft_strjoin(NULL, MAGENTA);
 	else
 		temp2 = ft_strjoin(NULL, CYAN);
 	temp = ft_strjoin(temp2, *user);
