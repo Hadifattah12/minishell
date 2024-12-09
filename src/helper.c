@@ -53,13 +53,13 @@ int has_invalid_redirection(char **tokens)
 
 void handle_found_export(t_prompt *prompt, char *argv)
 {
-	int i;
-    char *new_entry;
+	int     i;
+    char    *new_entry;
 
     i = -1;
     while (prompt->export[++i])
     {
-        if (!ft_strncmp(argv, prompt->export[i], ft_strchars_i(prompt->export[i], "=")))
+        if (!ft_strncmp(argv, prompt->export[i],ft_strchars_i(prompt->export[i],"=")))
         {
             free(prompt->export[i]);
             new_entry = ft_strdup(argv);
