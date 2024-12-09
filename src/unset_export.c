@@ -96,7 +96,7 @@ int	mini_export(t_prompt *prompt)
 		{
 			pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
 			if (pos == 1)
-				prompt->envp[ij[1]] = ft_strdup(argv[ij[0]]);
+				handle_found(prompt,argv[ij[0]]);
 			else if (pos == -1){
 				handle_export(argv[ij[0]], prompt);
 			}
@@ -112,13 +112,11 @@ int	mini_export(t_prompt *prompt)
 void	handle_unset(char *argv, t_prompt *prompt)
 {
 	int		i;
-	char	**argument;
 
 	i = -1;
-	argument = prompt->export;
-	while (argument[++i])
+	while (prompt->export[++i])
 	{
-		if (!ft_strncmp(argv, argument[i], ft_strlen(argv)))
+		if (!ft_strncmp(argv, prompt->export[i],ft_strchars_i(prompt->export[i],"=")))
 		{
 			ft_matrix_replace_in(&prompt->export, NULL, i);
 			return ;

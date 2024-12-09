@@ -149,4 +149,8 @@ t_mini	*get_params(t_mini *node, char **a[2], int *i,t_prompt *prompt);
 
 int		has_invalid_redirection(char **tokens);
 
+void	handle_found_export(t_prompt *prompt, char *argv);
+
+void	handle_found(t_prompt *prompt, char *argv);
+
 #endif

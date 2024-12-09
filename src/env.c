@@ -75,7 +75,7 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 	{
 		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
 		{
-			free(envp[ij[1]]);
+			// free(envp[ij[1]]);
 			return (1);
 		}
 		ij[1]++;
@@ -87,6 +87,8 @@ void	print_error_export(t_prompt *prompt, char *argv)
 {
 	printf("minishell: '%s' not a valid identifier\n", argv);
 	if(argv[0] == '=' && !argv[1])
+		return ;
+	if(ft_strchars_i(argv, "~{}-#!+@.") >= 0)
 		return ;
 	prompt->export = ft_extend_matrix(prompt->export, argv);
 

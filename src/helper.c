@@ -50,3 +50,45 @@ int has_invalid_redirection(char **tokens)
     }
     return (0);
 }
+
+void handle_found_export(t_prompt *prompt, char *argv)
+{
+	int i;
+    char *new_entry;
+
+    i = -1;
+    while (prompt->export[++i])
+    {
+        if (!ft_strncmp(argv, prompt->export[i], ft_strchars_i(prompt->export[i], "=")))
+        {
+            free(prompt->export[i]);
+            new_entry = ft_strdup(argv);
+            if (!new_entry)
+                return;
+            prompt->export[i] = new_entry;
+            return;
+        }
+    }
+}
+
+void handle_found(t_prompt *prompt, char *argv)
+{
+    int i;
+    char *new_entry;
+
+    i = -1;
+    while (prompt->envp[++i])
+    {
+        if (!ft_strncmp(argv, prompt->envp[i], ft_strchars_i(prompt->envp[i], "=")))
+        {
+            free(prompt->envp[i]);
+            new_entry = ft_strdup(argv);
+            if (!new_entry)
+                return;
+            prompt->envp[i] = new_entry;
+            break;
+        }
+    }
+	handle_found_export(prompt,argv);
+	return ;
+}

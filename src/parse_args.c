@@ -34,7 +34,7 @@ int	mini_unset(t_prompt *prompt)
 			if (var_in_envp_unset(argv[ij[0]], prompt->envp, ij))
 			{
 				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
-				ft_matrix_replace_in(&prompt->export, NULL, ij[1]);
+				handle_unset(argv[ij[0]],prompt);
 			}
 		}
 	}
