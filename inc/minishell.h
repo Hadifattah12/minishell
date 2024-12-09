@@ -147,4 +147,6 @@ char	*get_substr_var(char *str, int i, t_prompt *prompt);
 
 t_mini	*get_params(t_mini *node, char **a[2], int *i,t_prompt *prompt);
 
+int		has_invalid_redirection(char **tokens);
+
 #endif

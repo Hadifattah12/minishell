@@ -28,3 +28,23 @@ void	handle_export(char *argv, t_prompt *prompt)
 	}
 	prompt->export = ft_extend_matrix(prompt->export, argv);
 }
+
+int has_invalid_redirection(char **tokens)
+{
+    int i;
+
+    i = 0;
+    while (tokens && tokens[i])
+    {
+        if (tokens[i][0] == '>' || tokens[i][0] == '<')
+        {
+            if (tokens[i + 1] && (tokens[i + 1][0] == '>' || tokens[i + 1][0] == '<'))
+            {
+                if (tokens[i + 2] && (tokens[i + 2][0] == '>' || tokens[i + 2][0] == '<'))
+                    return (1);
+            }
+        }
+        i++;
+    }
+    return (0);
+}

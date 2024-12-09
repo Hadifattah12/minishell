@@ -80,6 +80,8 @@ void	*mini_perror(int err_type, char *param, int err)
 		ft_putstr_fd("minishell: dup2 failed\n", 2);
 	else if (err_type == FORKERR)
 		ft_putstr_fd("minishell: fork failed\n", 2);
+	else if (err_type == 14)
+		ft_putstr_fd("minishell: syntax error near unexpected token `>`\n",2);
 	mini_perror_helper(err_type, param);
 	return (NULL);
 }

@@ -54,6 +54,13 @@ static char	**split_all(char **args, t_prompt *prompt)
 		args[i] = expand_path(args[i], -1, quotes,
 				mini_getenv("HOME", prompt->envp, 4));
 		subsplit = ft_cmdsubsplit(args[i], "<|>");
+		if (has_invalid_redirection(subsplit))
+		{
+    	mini_perror(14,NULL, 2);
+    	ft_free_matrix(&subsplit);
+    	ft_free_matrix(&args);
+    	return (NULL);
+		}
 		ft_matrix_replace_in(&args, subsplit, i);
 		i += ft_matrixlen(subsplit) - 1;
 		ft_free_matrix(&subsplit);
@@ -65,9 +72,13 @@ static void	*parse_args(char **args, t_prompt *p)
 {
 	int	is_exit;
 	int	i;
+	char	**argument;
 
 	is_exit = 0;
-	p->cmds = fill_nodes(split_all(args, p), -1,p);
+	argument = split_all(args, p);
+	if(!argument)
+		return (p);
+	p->cmds = fill_nodes(argument,-1,p);
 	if (!p->cmds)
 		return (p);
 	i = ft_lstsize(p->cmds);
