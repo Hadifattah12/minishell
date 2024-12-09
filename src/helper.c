@@ -38,10 +38,12 @@ int has_invalid_redirection(char **tokens)
     {
         if (tokens[i][0] == '>' || tokens[i][0] == '<')
         {
-            if (tokens[i + 1] && (tokens[i + 1][0] == '>' || tokens[i + 1][0] == '<'))
+            if (tokens[i + 1] && (tokens[i + 1][0] == '>' || tokens[i + 1][0] == '<' || tokens[i + 1][0] == '|'))
             {
-                if (tokens[i + 2] && (tokens[i + 2][0] == '>' || tokens[i + 2][0] == '<'))
-                    return (1);
+                if(tokens[i + 1][0] == '|')
+                    return 1;
+                if (tokens[i + 2] && (tokens[i + 2][0] == '>' || tokens[i + 2][0] == '<' || tokens[i + 2][0] == '|'))
+                        return 1;
             }
         }
         i++;

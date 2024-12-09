@@ -56,13 +56,13 @@ char	*get_substr_var(char *str, int i, t_prompt *prompt)
 	char	*path;
 	char	*var;
 
-	pos = ft_strchars_i(&str[i], "|\"\'$?><:{};/ ")
+	pos = ft_strchars_i(&str[i], "|\"\'$?><:{};/% ")
 		+ (ft_strchr("$?", str[i]) != 0);
 	if (pos == -1)
 		pos = ft_strlen(str) - 1;
 	aux = ft_substr(str, 0, i - 1);
 	var = mini_getenv(&str[i], prompt->envp,
-			ft_strchars_i(&str[i], "\"\'$|><:{};/ "));
+			ft_strchars_i(&str[i], "\"\'$|><:{};/% "));
 	if (!var && str[i] == '$')
 		var = ft_itoa(prompt->pid);
 	else if (!var && str[i] == '?')
