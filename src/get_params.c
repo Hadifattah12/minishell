@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:22:45 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 16:23:26 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:41:24 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_mini	*get_infile1(t_mini *node, char **args, int *i)
 	return (node);
 }
 
-t_mini	*get_infile2(t_mini *node, char **args, int *i,t_prompt *prompt)
+t_mini	*get_infile2(t_mini *node, char **args, int *i, t_prompt *prompt)
 {
 	char	*aux[2];
 	char	*nl;
@@ -127,7 +127,7 @@ t_mini	*get_infile2(t_mini *node, char **args, int *i,t_prompt *prompt)
 	if (args[++(*i)])
 	{
 		aux[0] = args[*i];
-		node->infile = get_here_doc(str, aux,prompt);
+		node->infile = get_here_doc(str, aux, prompt);
 	}
 	if (!args[*i] || node->infile == -1)
 	{

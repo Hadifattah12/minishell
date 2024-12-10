@@ -5,100 +5,105 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 10:22:55 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 10:22:57 by hfattah          ###   ########.fr       */
+/*   Created: 2024/06/25 13:24:52 by hfattah           #+#    #+#             */
+/*   Updated: 2024/12/10 13:45:52 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/get_next_line.h"
+#include "get_next_line.h"
+#include "../inc/minishell.h"
+
+static char	*ft_strchrr(char *s, int c)
+{
+	unsigned int	i;
+	char			cc;
+
+	cc = (char) c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			return ((char *) &s[i]);
+		i++;
+	}
+	if (s[i] == cc)
+		return ((char *) &s[i]);
+	return (NULL);
+}
+
+static char	*_set_line(char *line)
+{
+	char	*left_c;
+	ssize_t	i;
+
+	i = 0;
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
+	if (line[i] == 0 || line[1] == 0)
+		return (NULL);
+	left_c = ft_substr(line, i + 1, ft_strlenn(line) - i);
+	if (*left_c == 0)
+	{
+		free(left_c);
+		left_c = NULL;
+	}
+	line[i + 1] = 0;
+	return (left_c);
+}
+
+static char	*update_stock(int fd, char *left_c, char *stock)
+{
+	ssize_t	readcheck;
+	char	*tmp;
+
+	readcheck = 1;
+	while (readcheck > 0)
+	{
+		readcheck = read(fd, stock, BUFFER_SIZE);
+		if (readcheck == -1)
+		{
+			if (g_status == 2)
+				g_status = 130;
+			free(left_c);
+			return (NULL);
+		}
+		else if (readcheck == 0)
+			break ;
+		stock[readcheck] = 0;
+		if (!left_c)
+			left_c = ft_strdupp("");
+		tmp = left_c;
+		left_c = ft_strjoinn(tmp, stock);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchrr(stock, '\n'))
+			break ;
+	}
+	return (left_c);
+}
 
 char	*get_next_line(int fd)
 {
-	static char	*buf[4096];
+	static char	*left_c;
 	char		*line;
-	size_t		old_len;
+	char		*stock;
 
-	if (fd < 0 || fd > 4095 || BUFFER_SIZE < 0)
-		return (NULL);
-	line = NULL;
-	if (gnl_strchr_i(buf[fd], '\n') == -1)
+	stock = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
-		old_len = gnl_strlen(buf[fd]);
-		buf[fd] = gnl_expand_buffer(buf[fd], fd);
-		if (old_len == gnl_strlen(buf[fd]) && buf[fd])
-			line = gnl_substr(buf[fd], 0, gnl_strlen(buf[fd]));
-	}
-	if (!buf[fd])
-		return (NULL);
-	if (!line && gnl_strchr_i(buf[fd], '\n') != -1)
-		line = gnl_substr(buf[fd], 0, gnl_strchr_i(buf[fd], '\n') + 1);
-	if (line)
-	{
-		buf[fd] = gnl_shrink_buffer(buf[fd], line);
-		return (line);
-	}
-	return (get_next_line(fd));
-}
-
-char	*gnl_shrink_buffer(char *buf, char *line)
-{
-	char	*newbuf;
-	int		line_len;
-
-	if (!buf || !line)
-		return (buf);
-	line_len = gnl_strlen(line);
-	if ((int)gnl_strlen(buf) == line_len)
-	{
-		free(buf);
+		free(left_c);
+		free(stock);
+		left_c = NULL;
+		stock = NULL;
 		return (NULL);
 	}
-	newbuf = gnl_substr(buf, line_len, gnl_strlen(buf) - line_len);
-	free(buf);
-	return (newbuf);
-}
-
-char	*gnl_expand_buffer(char *buf, int fd)
-{
-	char	*newbuf;
-	int		newlen;
-	char	*aux;
-
-	aux = gnl_newread(fd);
-	if (!aux)
+	if (!stock)
 		return (NULL);
-	if (!aux[0])
-	{
-		free(aux);
-		return (buf);
-	}
-	if (!buf)
-		return (aux);
-	newlen = gnl_strlen(buf) + gnl_strlen(aux);
-	newbuf = malloc(newlen + 1);
-	if (!newbuf)
+	line = update_stock(fd, left_c, stock);
+	free(stock);
+	stock = NULL;
+	if (!line)
 		return (NULL);
-	gnl_strlcpy(newbuf, buf, newlen + 1);
-	gnl_strlcat(newbuf, aux, newlen + 1);
-	free(buf);
-	free(aux);
-	return (newbuf);
-}
-
-char	*gnl_newread(int fd)
-{
-	char	*aux;
-	int		nbytes;
-
-	aux = malloc(BUFFER_SIZE + 1);
-	if (!aux)
-		return (NULL);
-	nbytes = read(fd, aux, BUFFER_SIZE);
-	if (nbytes < 0)
-	{
-		free(aux);
-		return (NULL);
-	}
-	aux[nbytes] = '\0';
-	return (aux);
+	left_c = _set_line(line);
+	return (line);
 }

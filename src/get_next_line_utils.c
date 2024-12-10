@@ -5,118 +5,87 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 10:23:03 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/03 10:23:04 by hfattah          ###   ########.fr       */
+/*   Created: 2024/06/25 11:54:32 by hfattah           #+#    #+#             */
+/*   Updated: 2024/12/10 13:44:34 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/get_next_line.h"
+#include "get_next_line.h"
 
-size_t	gnl_strlen(const char *s)
+char	*ft_strdupp(char *s1)
 {
-	int	count;
+	char			*dest;
+	unsigned int	i;
 
-	count = 0;
-	if (!s)
-		return (0);
-	while (s[count] != '\0')
-		count++;
-	return (count);
+	dest = (char *) malloc(ft_strlenn(s1) + 1);
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
 }
 
-char	*gnl_substr(char const *s, unsigned int start, size_t len)
+size_t	ft_strlenn(char *s)
 {
-	size_t	s_len;
-	char	*substr;
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_substrr(char *s, unsigned int start, size_t len)
+{
 	size_t	i;
+	char	*str;
 
 	if (!s)
 		return (NULL);
-	s_len = gnl_strlen(s);
-	i = 0;
-	if (len > s_len)
-		len = s_len;
-	if (start >= s_len)
-	{
-		substr = (char *)malloc(1);
-		if (substr == NULL)
-			return (NULL);
-		substr[0] = '\0';
-		return (substr);
-	}
-	substr = (char *)malloc(len + 1);
-	if (substr == NULL)
+	if (start > ft_strlenn(s))
+		return (malloc(1));
+	if (len > ft_strlenn(s + start))
+		len = ft_strlenn(s + start);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	while (i++ < start)
-		s++;
-	gnl_strlcpy(substr, s, len + 1);
-	return (substr);
-}
-
-size_t	gnl_strlcpy(char *dst, const char *src, size_t size)
-{
-	unsigned int	i;
-	size_t			size_src;
-
 	i = 0;
-	if (src == NULL)
-		return (0);
-	size_src = gnl_strlen(src);
-	if ((int)size < 0)
-		size = size_src + 1;
-	if (size >= 2 && size_src != 0)
+	while (i < len)
 	{
-		while (i < size - 1)
-		{
-			if (i < size_src)
-				dst[i] = src[i];
-			else if (i == size_src)
-				dst[i] = '\0';
-			i++;
-		}
-	}
-	if (size != 0)
-		dst[i] = '\0';
-	return (size_src);
-}
-
-int	gnl_strchr_i(const char *s, int c)
-{
-	unsigned char	c_unsigned;
-	int				i;
-
-	i = 0;
-	if (!s)
-		return (-1);
-	c_unsigned = (unsigned char)c;
-	while (s[i] != '\0')
-	{
-		if (s[i] == c_unsigned)
-			return (i);
+		str[i] = s[start + i];
 		i++;
 	}
-	if (c_unsigned == '\0')
-		return (i);
-	return (-1);
+	str[i] = 0;
+	return (str);
 }
 
-size_t	gnl_strlcat(char *dst, const char *src, size_t size)
+char	*ft_strjoinn(char *s1, char *s2)
 {
-	char			*ptr;
-	unsigned int	i;
+	char			*res;
 
-	if (size < gnl_strlen(dst))
-		return (gnl_strlen(src) + size);
-	ptr = dst + gnl_strlen(dst);
-	i = gnl_strlen(dst);
-	while (i < size - 1 && *src != '\0' && size >= 2)
-	{
-		*ptr = *src;
-		ptr++;
-		src++;
-		i++;
-	}
-	if (size != 0)
-		*ptr = '\0';
-	return (gnl_strlen(dst) + gnl_strlen(src));
+	res = (char *) malloc((ft_strlenn(s1) + ft_strlenn(s2) + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	fill_str(res, s1, s2);
+	return (res);
+}
+
+void	fill_str(char *res, char *s1, char *s2)
+{
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	res[i] = '\0';
 }

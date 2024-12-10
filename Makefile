@@ -6,12 +6,12 @@
 #    By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/03 10:15:55 by hfattah           #+#    #+#              #
-#    Updated: 2024/12/05 14:47:14 by hfattah          ###   ########.fr        #
+#    Updated: 2024/12/10 10:59:03 by hfattah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 AR = ar rcs
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
 CC = gcc
 SRC_DIR = src

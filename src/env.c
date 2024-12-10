@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:54:00 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 13:32:09 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:39:10 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 	{
 		if (!ft_strncmp(envp[ij[1]], argv, pos + 1))
 		{
-			// free(envp[ij[1]]);
 			return (1);
 		}
 		ij[1]++;
@@ -86,12 +85,11 @@ int	var_in_envp(char *argv, char **envp, int ij[2])
 void	print_error_export(t_prompt *prompt, char *argv)
 {
 	printf("minishell: '%s' not a valid identifier\n", argv);
-	if(argv[0] == '=' && !argv[1])
+	if (argv[0] == '=' && !argv[1])
 		return ;
-	if(ft_strchars_i(argv, "~{}-#!+@.") >= 0)
+	if (ft_strchars_i(argv, "~{}-#!+@.") >= 0)
 		return ;
 	prompt->export = ft_extend_matrix(prompt->export, argv);
-
 }
 
 void	extend_export(t_prompt *prompt, char *argv)

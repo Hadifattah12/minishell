@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 12:34:47 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 15:00:03 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:51:55 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**ft_cmdsubsplit(char const *s, char *set);
 
 char	*ft_strtrim_all(char const *s1, int squote, int dquote);
 
-t_list	*fill_nodes(char **args, int i,t_prompt *prompt);
+t_list	*fill_nodes(char **args, int i, t_prompt *prompt);
 
 int		get_fd(int oldfd, char *path, int flags[2]);
 
@@ -111,7 +111,7 @@ t_mini	*get_outfile2(t_mini *node, char **args, int *i);
 
 t_mini	*get_infile1(t_mini *node, char **args, int *i);
 
-t_mini	*get_infile2(t_mini *node, char **args, int *i,t_prompt *prompt);
+t_mini	*get_infile2(t_mini *node, char **args, int *i, t_prompt *prompt);
 
 void	*exec_cmd(t_prompt *prompt, t_list *cmd);
 
@@ -127,7 +127,7 @@ char	*expand_vars(char *str, int i, int quotes[2], t_prompt *prompt);
 
 char	*expand_path(char *str, int i, int quotes[2], char *var);
 
-int		get_here_doc(char *str[2], char *aux[2],t_prompt *prompt);
+int		get_here_doc(char *str[2], char *aux[2], t_prompt *prompt);
 
 void	*mini_perror(int err_type, char *param, int err);
 
@@ -145,7 +145,7 @@ void	handle_export(char *argv, t_prompt *prompt);
 
 char	*get_substr_var(char *str, int i, t_prompt *prompt);
 
-t_mini	*get_params(t_mini *node, char **a[2], int *i,t_prompt *prompt);
+t_mini	*get_params(t_mini *node, char **a[2], int *i, t_prompt *prompt);
 
 int		has_invalid_redirection(char **tokens);
 

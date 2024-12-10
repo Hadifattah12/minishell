@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:18:54 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 16:38:23 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:54:53 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	*mini_perror(int err_type, char *param, int err)
 	else if (err_type == FORKERR)
 		ft_putstr_fd("minishell: fork failed\n", 2);
 	else if (err_type == 14)
-		ft_putstr_fd("minishell: syntax error near unexpected token `>`\n",2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `>`\n", 2);
 	mini_perror_helper(err_type, param);
 	return (NULL);
 }

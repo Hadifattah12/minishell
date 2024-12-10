@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 10:07:36 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 15:01:41 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:42:43 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,9 @@ int	mini_export(t_prompt *prompt)
 		{
 			pos = var_in_envp(argv[ij[0]], prompt->envp, ij);
 			if (pos == 1)
-				handle_found(prompt,argv[ij[0]]);
-			else if (pos == -1){
+				handle_found(prompt, argv[ij[0]]);
+			else if (pos == -1)
 				handle_export(argv[ij[0]], prompt);
-			}
 			else if (ft_strchars_i(argv[ij[0]], "~{}-#!+@.") >= 0 || pos == -2)
 				print_error_export(prompt, argv[ij[0]]);
 			else if (!pos)
@@ -116,7 +115,8 @@ void	handle_unset(char *argv, t_prompt *prompt)
 	i = -1;
 	while (prompt->export[++i])
 	{
-		if (!ft_strncmp(argv, prompt->export[i],ft_strchars_i(prompt->export[i],"=")))
+		if (!ft_strncmp(argv, prompt->export[i],
+				ft_strchars_i(prompt->export[i], "=")))
 		{
 			ft_matrix_replace_in(&prompt->export, NULL, i);
 			return ;

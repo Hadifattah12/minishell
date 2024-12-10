@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:19:21 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/05 13:18:55 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/10 10:53:49 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	mini_unset(t_prompt *prompt)
 			if (var_in_envp_unset(argv[ij[0]], prompt->envp, ij))
 			{
 				ft_matrix_replace_in(&prompt->envp, NULL, ij[1]);
-				handle_unset(argv[ij[0]],prompt);
+				handle_unset(argv[ij[0]], prompt);
 			}
 		}
 	}
@@ -56,10 +56,10 @@ static char	**split_all(char **args, t_prompt *prompt)
 		subsplit = ft_cmdsubsplit(args[i], "<|>");
 		if (has_invalid_redirection(subsplit))
 		{
-    	mini_perror(14,NULL, 2);
-    	ft_free_matrix(&subsplit);
-    	ft_free_matrix(&args);
-    	return (NULL);
+			mini_perror(14, NULL, 2);
+			ft_free_matrix(&subsplit);
+			ft_free_matrix(&args);
+			return (NULL);
 		}
 		ft_matrix_replace_in(&args, subsplit, i);
 		i += ft_matrixlen(subsplit) - 1;
@@ -70,15 +70,15 @@ static char	**split_all(char **args, t_prompt *prompt)
 
 static void	*parse_args(char **args, t_prompt *p)
 {
-	int	is_exit;
-	int	i;
+	int		is_exit;
+	int		i;
 	char	**argument;
 
 	is_exit = 0;
 	argument = split_all(args, p);
-	if(!argument)
+	if (!argument)
 		return (p);
-	p->cmds = fill_nodes(argument,-1,p);
+	p->cmds = fill_nodes(argument, -1, p);
 	if (!p->cmds)
 		return (p);
 	i = ft_lstsize(p->cmds);
