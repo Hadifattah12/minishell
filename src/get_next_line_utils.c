@@ -6,11 +6,11 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 11:54:32 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/10 13:44:34 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/12 09:54:15 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../inc/get_next_line.h"
 
 char	*ft_strdupp(char *s1)
 {

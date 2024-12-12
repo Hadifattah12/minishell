@@ -6,12 +6,11 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:24:52 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/10 13:45:52 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/12 09:55:02 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "../inc/minishell.h"
+#include "../inc/get_next_line.h"
 
 static char	*ft_strchrr(char *s, int c)
 {
@@ -41,7 +40,7 @@ static char	*_set_line(char *line)
 		i++;
 	if (line[i] == 0 || line[1] == 0)
 		return (NULL);
-	left_c = ft_substr(line, i + 1, ft_strlenn(line) - i);
+	left_c = ft_substrr(line, i + 1, ft_strlenn(line) - i);
 	if (*left_c == 0)
 	{
 		free(left_c);
@@ -62,8 +61,6 @@ static char	*update_stock(int fd, char *left_c, char *stock)
 		readcheck = read(fd, stock, BUFFER_SIZE);
 		if (readcheck == -1)
 		{
-			if (g_status == 2)
-				g_status = 130;
 			free(left_c);
 			return (NULL);
 		}

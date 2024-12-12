@@ -6,7 +6,7 @@
 /*   By: hfattah <hfattah@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:22:06 by hfattah           #+#    #+#             */
-/*   Updated: 2024/12/10 16:05:11 by hfattah          ###   ########.fr       */
+/*   Updated: 2024/12/12 10:01:39 by hfattah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*get_here_str(char *str[2], size_t len, char *limit, t_prompt *prompt)
 		str[0] = readline("> ");
 		if (!str[0])
 		{
-			printf("minishell: warning: here-document delimited \
-			by end-of-file (wanted `%s\')\n", limit);
+			printf("minishell: warning: here-document delimited"
+				" by end-of-file (wanted `%s\')\n", limit);
 			break ;
 		}
 		temp = str[0];
