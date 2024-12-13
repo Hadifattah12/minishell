@@ -32,7 +32,8 @@ char	*get_here_str(char *str[2], size_t len, char *limit, t_prompt *prompt)
 			break ;
 		}
 		temp = str[0];
-		str[0] = expand_vars(temp, -1, quotes, prompt);
+		if(!prompt->quoted)
+			str[0] = expand_vars(temp, -1, quotes, prompt);
 		str[0] = ft_strjoin(str[0], "\n");
 		len = ft_strlen(str[0]) - 1;
 	}

@@ -60,7 +60,7 @@ static char	**ft_fill_array(char **aux, char const *s, char *set, int i[3])
 			i[0]++;
 		}
 		if (i[1] >= s_len)
-			aux[i[2]++] = "\0";
+			aux[i[2]++] = NULL;
 		else
 			aux[i[2]++] = ft_substr(s, i[1], i[0] - i[1]);
 	}

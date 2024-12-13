@@ -115,6 +115,18 @@ void	*check_args(char *out, t_prompt *p)
 		mini_perror(QUOTE, NULL, 1);
 	if (!a)
 		return ("");
+	int i = 0;
+	while (a[i])
+	{
+		if (ft_strncmp(a[i], "<<", 2) == 0 && a[i + 1])
+		{
+			if (a[i + 1][0] == '"' || a[i + 1][0] == '\'')
+				p->quoted = 1;
+			else
+				p->quoted = 0;
+		}
+		i++;
+	}
 	p = parse_args(a, p);
 	if (p && p->cmds)
 		n = p->cmds->content;
