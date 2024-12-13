@@ -49,60 +49,38 @@ char	*expand_path(char *str, int i, int quotes[2], char *var)
 	return (str);
 }
 
-char	*get_substr_var(char *str, int i, t_prompt *prompt)
-{
-	char	*aux;
-	int		pos;
-	char	*path;
-	char	*var;
-
-	pos = ft_strchars_i(&str[i], "|\"\'$?><:{};/% ")
-		+ (ft_strchr("$?", str[i]) != 0);
-	if (pos == -1)
-		pos = ft_strlen(str) - 1;
-	aux = ft_substr(str, 0, i - 1);
-	var = mini_getenv(&str[i], prompt->envp,
-			ft_strchars_i(&str[i], "\"\'$|><:{};/% "));
-	if (!var && str[i] == '$')
-		var = ft_itoa(prompt->pid);
-	else if (!var && str[i] == '?')
-		var = ft_itoa(g_status);
-	path = ft_strjoin(aux, var);
-	free(aux);
-	aux = ft_strjoin(path, &str[i + pos]);
-	free(var);
-	free(path);
-	free(str);
-	return (aux);
-}
-
-// char	*expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
-// {
-// 	quotes[0] = 0;
-// 	quotes[1] = 0;
-// 	while (str && str[++i])
-// 	{
-// 		quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
-// 		quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-// 		if (!quotes[0] && str[i] == '$' && str[i + 1]
-// 			&& ((ft_strchars_i(&str[i + 1], "/~%^{}:;= ") && !quotes[1])
-// 				|| (ft_strchars_i(&str[i + 1], "/~%^{}:;=\"") && quotes[1])))
-// 			return (expand_vars(get_substr_var(str, ++i, prompt), -1,
-// 					quotes, prompt));
-// 	}
-// 	return (str);
-// }
-
 char *ft_strjoin_char(char *str, char c)
 {
-    size_t len = ft_strlen(str);
-    char *result = malloc(len + 2);
+	size_t	len;
+    char	*result;
+
+	len = ft_strlen(str);
+    result = malloc(len + 2);
     if (!result)
         return NULL;
     ft_strlcpy(result, str, len + 1);
     result[len] = c;
     result[len + 1] = '\0';
+    return result;
+}
 
+char *handle_special_cases(char *result, char *str, int i, t_prompt *prompt)
+{
+    char *var;
+    char *temp;
+
+    if (str[i] == '$')
+        var = ft_itoa(prompt->pid);
+    else if (str[i] == '?')
+        var = ft_itoa(g_status);
+    else
+        var = ft_strdup("");
+    if (!var)
+        return result;
+    temp = result;
+    result = ft_strjoin(result, var);
+    free(temp);
+    free(var);
     return result;
 }
 
@@ -114,29 +92,39 @@ char *handle_variable_expansion(char *result, char *str, int i, t_prompt *prompt
     int j;
 
     j = i + 1;
+    if (str[j] == '$' || str[j] == '?')
+        return handle_special_cases(result, str, j, prompt);
     while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
         j++;
     var_name = ft_substr(str, i + 1, j - (i + 1));
+    if (!var_name)
+        return result;
     var_value = mini_getenv(var_name, prompt->envp, ft_strlen(var_name));
     free(var_name);
-
     if (!var_value)
         var_value = ft_strdup("");
+    if (!var_value)
+        return result;
     temp = result;
     result = ft_strjoin(result, var_value);
     free(temp);
     free(var_value);
-
     return result;
 }
 
+
 int update_index_after_expansion(char *str, int i)
 {
-    int j = i + 1;
+    int j;
+
+    j = i + 1;
+    if (str[j] == '$' || str[j] == '?')
+        return j;
     while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
         j++;
-    return j - 1;
+    return (j - 1);
 }
+
 
 char *expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
 {
@@ -150,11 +138,10 @@ char *expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
     {
         quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
         quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-
         if (!quotes[0] && str[i] == '$' && str[i + 1])
         {
             result = handle_variable_expansion(result, str, i, prompt);
-            i = update_index_after_expansion(str, i);
+                i = update_index_after_expansion(str, i);
         }
         else
         {
@@ -165,14 +152,4 @@ char *expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
     }
     free(str);
     return result;
-}
-
-int	mini_pwd(void)
-{
-	char	*buf;
-
-	buf = getcwd(NULL, 0);
-	ft_putendl_fd(buf, 1);
-	free(buf);
-	return (0);
 }
