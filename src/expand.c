@@ -125,30 +125,51 @@ int update_index_after_expansion(char *str, int i)
     return (j - 1);
 }
 
+static char *handle_escaped_dollar(char *result, int *i)
+{
+    char *temp;
+
+    temp = result;
+    result = ft_strjoin_char(result, '$');
+    free(temp);
+    (*i)++;
+    return result;
+}
+
+static char *append_character(char *result, char c)
+{
+    char *temp;
+
+    temp = result;
+    result = ft_strjoin_char(result, c);
+    free(temp);
+    return result;
+}
 
 char *expand_vars(char *str, int i, int quotes[2], t_prompt *prompt)
 {
     char *result;
-    char *temp;
 
     result = ft_strdup("");
+    if(!result)
+        return NULL;
     quotes[0] = 0;
     quotes[1] = 0;
     while (str && str[++i])
     {
         quotes[0] = (quotes[0] + (!quotes[1] && str[i] == '\'')) % 2;
         quotes[1] = (quotes[1] + (!quotes[0] && str[i] == '\"')) % 2;
-        if (!quotes[0] && str[i] == '$' && str[i + 1])
-        {
+        if (!quotes[0] && str[i] == '\\' && str[i + 1] == '$')
+            result = handle_escaped_dollar(result, &i);
+        else if (!quotes[0] && str[i] == '$' && ft_isdigit(str[i + 1]))
+            i++;
+        else if (!quotes[0] && str[i] == '$' && str[i + 1])
+        {            
             result = handle_variable_expansion(result, str, i, prompt);
                 i = update_index_after_expansion(str, i);
         }
         else
-        {
-            temp = result;
-            result = ft_strjoin_char(result, str[i]);
-            free(temp);
-        }
+            result = append_character(result, str[i]);
     }
     free(str);
     return result;

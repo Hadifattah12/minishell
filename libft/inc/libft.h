@@ -42,7 +42,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 int			ft_atoi(const char *nptr);
 
-int			ft_atoi2(const char *nptr, long *nbr);
+int			ft_atoi2(const char *nptr,unsigned long long *nbr);
 
 char		*ft_itoa(int n);
 

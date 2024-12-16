@@ -88,7 +88,7 @@ static void	*parse_args(char **args, t_prompt *p)
 	if (!is_exit && g_status == 13)
 		g_status = 0;
 	if (g_status > 255)
-		g_status = g_status / 255;
+		g_status = g_status / 256;
 	if (args && is_exit)
 	{
 		ft_lstclear(&p->cmds, free_content);

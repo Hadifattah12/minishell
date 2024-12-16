@@ -19,6 +19,11 @@ void	handle_export(char *argv, t_prompt *prompt)
 
 	export = prompt->export;
 	i = -1;
+	if(ft_strchars_i("0123456789",argv) >= 0)
+	{
+		printf("minishell: '%s' not a valid identifier\n", argv);
+		return ;
+	}
 	while (export[++i])
 	{
 		if (!ft_strncmp(argv, export[i], ft_strlen(argv)))

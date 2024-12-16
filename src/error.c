@@ -12,10 +12,17 @@
 
 #include "../inc/minishell.h"
 
-int	ft_atoi2(const char *nptr, long *nbr)
+int	check_out_of_range(int neg, unsigned long long num)
+{
+	if ((neg == 1 && num > LONG_MAX)
+		|| (neg == -1 && num > -(unsigned long)LONG_MIN))
+		return -1;
+	return 1;
+}
+
+int	ft_atoi2(const char *nptr,unsigned long long *nbr)
 {
 	int		sign;
-
 	sign = 1;
 	*nbr = 0;
 	while (ft_isspace(*nptr))
@@ -29,6 +36,8 @@ int	ft_atoi2(const char *nptr, long *nbr)
 	while (ft_isdigit(*nptr))
 	{
 		*nbr = 10 * *nbr + (*nptr - '0');
+		if (check_out_of_range(sign, *nbr) == -1)
+			return -1;
 		nptr++;
 	}
 	if (*nptr && !ft_isspace(*nptr))
@@ -40,7 +49,7 @@ int	ft_atoi2(const char *nptr, long *nbr)
 int	mini_exit(t_list *cmd, int *is_exit)
 {
 	t_mini	*node;
-	long	status[2];
+	unsigned long long	status[2];
 
 	node = cmd->content;
 	*is_exit = !cmd->next;
@@ -49,7 +58,7 @@ int	mini_exit(t_list *cmd, int *is_exit)
 	if (!node->full_cmd || !node->full_cmd[1])
 		return (g_status);
 	status[1] = ft_atoi2(node->full_cmd[1], &status[0]);
-	if (status[1] == -1)
+	if ((int)status[1] == -1)
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(node->full_cmd[1], 2);
