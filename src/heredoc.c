@@ -16,6 +16,7 @@ char	*get_here_str(char *str[2], size_t len, char *limit, t_prompt *prompt)
 {
 	char	*temp;
 	int		quotes[2];
+	char	*expanded;
 
 	while (g_status != 130 && (!str[0] || ft_strncmp(str[0], limit, len) \
 		|| ft_strlen(limit) != len))
@@ -31,10 +32,13 @@ char	*get_here_str(char *str[2], size_t len, char *limit, t_prompt *prompt)
 				" by end-of-file (wanted `%s\')\n", limit);
 			break ;
 		}
+		if(!prompt->quoted){
+			expanded = expand_vars(str[0], -1, quotes, prompt);
+		str[0] = expanded;
+		}
 		temp = str[0];
-		if(!prompt->quoted)
-			str[0] = expand_vars(temp, -1, quotes, prompt);
 		str[0] = ft_strjoin(str[0], "\n");
+		free(temp);
 		len = ft_strlen(str[0]) - 1;
 	}
 	free(str[0]);

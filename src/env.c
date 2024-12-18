@@ -96,6 +96,26 @@ void	print_error_export(t_prompt *prompt, char *argv)
 
 void	extend_export(t_prompt *prompt, char *argv)
 {
+	int		i;
+	char	*new_entry;
+	int flag = 0;
+	i = -1;
+	while (prompt->export[++i])
+	{
+		if (!ft_strncmp(argv, prompt->export[i],ft_strchars_i(argv,"=")))
+		{
+			free(prompt->export[i]);
+			new_entry = ft_strdup(argv);
+			if (!new_entry)
+				return ;
+			prompt->export[i] = new_entry;
+			flag = 1;
+			break;
+		}
+	}
 	prompt->envp = ft_extend_matrix(prompt->envp, argv);
+	if(flag == 1)
+		return ;
+	else
 	prompt->export = ft_extend_matrix(prompt->export, argv);
 }
