@@ -35,6 +35,7 @@ typedef struct s_prompt
 	pid_t	pid;
 	char	**export;
 	int		quoted;
+	char	*pwd;
 }			t_prompt;
 
 typedef struct s_mini

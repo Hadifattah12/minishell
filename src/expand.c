@@ -94,6 +94,9 @@ char *handle_variable_expansion(char *result, char *str, int i, t_prompt *prompt
     j = i + 1;
     if (str[j] == '$' || str[j] == '?')
         return handle_special_cases(result, str, j, prompt);
+    char *pwd = ft_strnstr(&str[j],"PWD",3);
+    if(pwd && prompt->pwd != NULL)
+        printf("%s\n",prompt->pwd);
     while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
         j++;
     var_name = ft_substr(str, i + 1, j - (i + 1));

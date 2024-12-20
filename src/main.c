@@ -69,6 +69,7 @@ static t_prompt	init_prompt(char **argv, char **envp)
 	str = NULL;
 	prompt.cmds = NULL;
 	prompt.quoted = 0;
+	prompt.pwd = NULL;
 	prompt.envp = ft_dup_matrix(envp);
 	prompt.export = ft_dup_matrix(envp);
 	g_status = 0;

@@ -90,14 +90,21 @@ int	mini_cd(t_prompt *p)
 	str[1] = ft_extend_matrix(str[1], aux);
 	free(aux);
 	cd_error(str);
-	if (!g_status)
+	if (!g_status && (mini_getenv("PWD",p->envp,3)))
 		p->envp = mini_setenv("OLDPWD", str[1][1], p->envp, 6);
+	else
+		p->envp = mini_setenv("OLDPWD", NULL, p->envp, 6);
 	aux = getcwd(NULL, 0);
 	if (!aux)
 		aux = ft_strdup("");
+	if(!mini_getenv("PWD",p->envp,3))
+		p->pwd = aux;
+	else
+	{
 	str[1] = ft_extend_matrix(str[1], aux);
 	free(aux);
 	p->envp = mini_setenv("PWD", str[1][2], p->envp, 3);
+	}
 	ft_free_matrix(&str[1]);
 	return (g_status);
 }
